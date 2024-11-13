@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<meta charset="UTF-8">
+	<title>header</title>
+	<link rel="stylesheet" href="/css/home.css">
+</head>
+
+<body >
+
+	<div th:fragment="header" class="w-100 h-100">
+		<nav class="navbar navbar-expand-lg position-relative">
+			<div class="container-fluid p-4">
+				<a class="navbar-brand text-light ms-5 me-5" href="home"><i class="fa-solid fa-stroopwafel"></i> Booking
+					Store</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse me-auto mb-2 mb-lg-0" id="navbarSupportedContent">
+				</div>
+				<div class="dropdown">
+					<a class="me-5 pe-5 nav-link dropdown-toggle link-light" href="#" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<span sec:authorize="isAnonymous()">User</span>
+						<span sec:authorize="isAuthenticated()">[[${#authentication.name}]]</span>
+					</a>
+					<ul class="dropdown-menu w-50">
+						<li sec:authorize="isAnonymous()">
+							<a class="dropdown-item link-light" href="/req/login">Login</a>
+						</li>
+						<li sec:authorize="isAuthenticated()">
+							<a class="dropdown-item link-light" th:href="@{/req/logout}">Logout</a>
+						</li>
+						<li sec:authorize="hasRole('admin')"><a
+							class="dropdown-item link-light" th:href="@{/admin}">Manager</a>
+						</li>
+						<li sec:authorize="isAuthenticated()"> 
+							<a class="dropdown-item link-light" th:href="@{/profile(username=${#authentication.name})}">ManagerUsers</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<ul class="collapse navbar-collapse position-absolute top-50 start-50 translate-middle">
+				<li class="nav-item me-3 "><a class="nav-link text-light" href="#">Ưu
+						đãi nổi bật</a></li>
+				<li class="nav-item me-3 "><a class="nav-link text-light" href="#">Tin
+						Tức</a></li>
+				<li class="nav-item me-3 "><a class="nav-link text-light" href="#">Hỗ trợ
+					</a></li>
+			</ul>
+		</nav>
+
+		<div class="row g-0">
+			<div class="col-md-6">
+				<div class="text-light text-center me-5 mt-5">
+					<h1 class="">
+						Welcome <br> To Booking Store <br>
+					</h1>
+					<div class="fs-6">Đặt vé nhanh chóng, dễ dàng, thuận tiện tại
+						đây</div>
+				</div>
+			</div>
+			<div class="col-md-6 mt-5">
+				<div class="card card1" style="width: 20rem; height: 12rem"></div>
+				<div class="card card2" style="width: 20rem; height: 12rem"></div>
+				<div class="card card3" style="width: 20rem; height: 12rem"></div>
+				<div class="card card4" style="width: 20rem; height: 12rem"></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

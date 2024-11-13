@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>article</title>
+</head>
+
+<body>
+	<article th:fragment="article">
+		<div class="container mt-3 mb-3 g-0">
+			<div th:replace="~{/views/home_items/order::order}"></div>
+		</div>
+		<div class="container mb-3">
+			<h4>Tuyến đường hot</h4>
+			<div class="row row-cols-1 row-cols-md-4 g-3 slick">
+				<div class="col" th:each="entry : ${MostBookedRoutes}">
+					<div class="card w-100 border-info">
+						<img alt="" class="card-img-top w-100 h-50"
+							th:src="'/img/'+${entry[0].bus.avatar}">
+						<div class="card-body">
+                    <span class="fw-bolder" th:text="${entry[0].name}"></span>
+                    <p>Số lượng đặt: <span th:text="${entry[1]}"></span></p>
+                </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container mb-3">
+			<h4>Tin nổi bật</h4>
+			<div class="row row-cols-1 row-cols-md-4 g-3 slick">
+				<div class="col" th:each="entry : ${FeaturedNewsinfo}">
+					<div class="card w-100 border-info">
+						<img alt="" class="card-img-top w-100 h-50"
+							th:src="${entry.value.image}">
+						<div class="card-body">
+							<span class="fw-bolder" th:text="${entry.value.title}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="container mb-3">
+			<h4 class="mb-4">Mẹo du lịch</h4>
+			<div class="row row-cols-1 row-cols-md-4 g-3 slick">
+				<div class="col" th:each="entry : ${TravelTipsinfo}">
+					<!-- Sử dụng 'tipsMap' -->
+					<div class="card w-100 border-info m-2" >
+						<img alt="" class="card-img-top w-100 h-50"
+							th:src="${entry.value.image}">
+						<div class="card-body">
+							<span class="fw-bolder" th:text="${entry.value.title}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</article>
+
+</body>
+
+</html>

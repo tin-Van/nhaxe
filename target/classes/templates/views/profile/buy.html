@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+<title>Lịch sử mua</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Main CSS-->
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+<!-- or -->
+<link rel="stylesheet"
+	href="https://unpkg.com/boxicons@latests/css/boxicons.min.css">
+
+<!-- Font-icon css-->
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<!-- Thư viện xlsx -->
+</head>
+
+<body onload="time()" class="app sidebar-mini rtl">
+	<!-- Navbar-->
+	<div th:replace="~{/views/manager_items/header::header}"></div>
+
+	<!-- Sidebar menu-->
+	<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+	<aside class="app-sidebar">
+		<div class="app-sidebar__user">
+			<div>
+				<p class="app-sidebar__user-name">
+					<b>[[${#authentication.name}]]</b>
+				</p>
+				<p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+			</div>
+		</div>
+		<hr>
+
+		<ul class="app-menu">
+
+			<li><a class="app-menu__item"
+				th:href="@{'/profile?username='+${#authentication.name}}"><i
+					class='app-menu__icon bx bx-id-card'></i> <span
+					class="app-menu__label">PROFILE</span></a></li>
+			<li><a class="app-menu__item active"
+				th:href="@{'/profile/history?username='+${#authentication.name}}">
+					<i class='app-menu__icon bx bx-id-card'></i> <span
+					class="app-menu__label">Lịch sử mua vé</span>
+			</a></li>
+		</ul>
+	</aside>
+	<main class="app-content">
+		<div class="app-title">
+			<ul class="app-breadcrumb breadcrumb side">
+				<li class="breadcrumb-item active"><a href="#"><b>Lịch
+							sử mua</b></a></li>
+			</ul>
+			<div id="clock"></div>
+		</div>
+		<div class="row">
+			<div class="container mt-4">
+				<div class="row">
+					<!-- Seller Info -->
+					<div class="col-md-12 d-flex justify-content-between"></div>
+
+					<!-- Product Information -->
+					<div th:each="items : ${tickets}" class="col-md-12 mt-3">
+						<div class="card p-3">
+							<div class="row">
+								<div class="col-md-2">
+									<img th:src="'/img/' + ${items.route.bus.avatar}"
+										class="img-fluid" alt="Product Image">
+								</div>
+								<div class="col-md-6">
+									<h5>[[${items.route.name}]]</h5>
+									<span th:if="${items.paymentstatus}=='True'"
+										class="badge bg-info">Thanh toán Onine</span> <span
+										th:if="${items.paymentstatus}=='Pending'"
+										class="badge badge-warning">Thanh toán Trực tiếp</span>
+										<span th:if="${items.paymentstatus}=='False'"
+										class="badge bg-danger">Hủy thanh toán</span>
+									<p>
+										Thời gian đặt vé: <span
+											th:text="${items.getFormattedBookingDate() != null ? items.getFormattedBookingDate() : 'N/A'}"></span>
+									</p>
+									<p class="text-muted">Ghế:<span th:text="${items.seat.seatNumber}" ></span></p>
+								</div>
+								<div class="col-md-4 mt-5 text-end">
+									<p>
+										Mã vé: <span th:text="${items.ticketCode}"></span>
+									</p>
+									<p>
+										Khởi hành: <span>[[${#dates.format(items.route.departureDate,
+											'dd-MMM-yyyy')}]]</span>
+									</p>
+									<p>Xe: [[${items.route.bus.name}]]</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div th:if="${#lists.isEmpty(tickets)}">
+    <p>Không có vé nào trong lịch sử mua.</p>
+</div>
+	</main>
+	<!-- Essential javascripts for application to work-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/src/jquery.table2excel.js"></script>
+	<script src="/js/main.js"></script>
+	<!-- The javascript plugin to display page loading on top-->
+	<script src="/js/plugins/pace.min.js"></script>
+	<!-- Page specific javascripts-->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<!-- Data table plugin-->
+	<script type="text/javascript"
+		src="/js/plugins/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="/js/plugins/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$('#sampleTable').DataTable();
+	</script>
+	<script>
+		function deleteRow(r) {
+			var i = r.parentNode.parentNode.rowIndex;
+			document.getElementById("myTable").deleteRow(i);
+		}
+		oTable = $('#sampleTable').dataTable();
+		$('#all').click(
+				function(e) {
+					$('#sampleTable tbody :checkbox').prop('checked',
+							$(this).is(':checked'));
+					e.stopImmediatePropagation();
+				});
+
+		// Thời Gian
+		function time() {
+			var today = new Date();
+			var weekday = new Array(7);
+			weekday[0] = "Chủ Nhật";
+			weekday[1] = "Thứ Hai";
+			weekday[2] = "Thứ Ba";
+			weekday[3] = "Thứ Tư";
+			weekday[4] = "Thứ Năm";
+			weekday[5] = "Thứ Sáu";
+			weekday[6] = "Thứ Bảy";
+			var day = weekday[today.getDay()];
+			var dd = today.getDate();
+			var mm = today.getMonth() + 1;
+			var yyyy = today.getFullYear();
+			var h = today.getHours();
+			var m = today.getMinutes();
+			var s = today.getSeconds();
+			m = checkTime(m);
+			s = checkTime(s);
+			nowTime = h + " giờ " + m + " phút " + s + " giây";
+			if (dd < 10) {
+				dd = '0' + dd
+			}
+			if (mm < 10) {
+				mm = '0' + mm
+			}
+			today = day + ', ' + dd + '/' + mm + '/' + yyyy;
+			tmp = '<span class="date"> ' + today + ' - ' + nowTime + '</span>';
+			document.getElementById("clock").innerHTML = tmp;
+			clocktime = setTimeout("time()", "1000", "Javascript");
+
+			function checkTime(i) {
+				if (i < 10) {
+					i = "0" + i;
+				}
+				return i;
+			}
+		}
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+</head>
+
+<body th:fragment="order_table">
+	<div class="card border-info p-3 mt-3">
+		<div class="mb-3">
+			<h5 class="form-label">Xe Khách</h5>
+		</div>
+		<form action="order/list" method="post" class="p-2">
+			<!-- <input type="hidden" name="userID" value="${#authentication.name}"> -->
+			<input class="form-control mb-3" list="datalistOptions"
+				id="exampleDataList" placeholder="Địa điểm khởi hành"
+				name="departure_name">
+			<datalist id="datalistOptions">
+				<option th:each="item:${locations}" th:text="${item.name}">
+			</datalist>
+
+			<input class="form-control mb-3" list="datalistOptions"
+				id="exampleDataList" placeholder="Địa điểm đến"
+				name="destination_name">
+			<datalist id="datalistOptions">
+				<option th:each="item:${locations}" th:text="${item.name}">
+			</datalist>
+			<!-- <%-- <input class="form-control mb-2" name="destination_name"
+				value="${item.destination.name}"
+				placeholder="Destination Location Name"> --%> -->
+			 <input
+				class="form-control mb-2" type="date" name="day"
+				value="${item.departureDate}">
+			<button type="submit" class="btn btn-primary">Search</button>
+		</form>
+	</div>
+</body>
+
+</html>

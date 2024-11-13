@@ -1,0 +1,78 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+	<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+		<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+			<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+				<!DOCTYPE html>
+				<html>
+
+				<head>
+					<meta charset="UTF-8">
+					<title>Table</title>
+				</head>
+
+				<body>
+					<main class="app-content">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="app-title">
+									<ul class="app-breadcrumb breadcrumb">
+										<li class="breadcrumb-item"><b>Quản lí xe</b></li>
+									</ul>
+									<div id="clock"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row p-2">
+							<div class="col-auto me-auto"> <a type="button" href="/admin/bus/edit">Tạo Mới</a> </div>
+							<div class="col-auto">
+								<nav class="navbar bg-body-tertiary">
+									<div class="container-fluid">
+										<form class="d-flex" action="/admin/route/list" method="post" role="search">
+											<input name="departure_name" value="${item.departure.name}"
+												placeholder="Địa điểm khởi hành" type="search" placeholder="Search"
+												aria-label="Search" class="form-control me-2">
+											<input name="destination_name" value="${item.destination.name}"
+												placeholder="Địa điểm đến" type="search" placeholder="Search"
+												aria-label="Search" class="form-control me-2">
+											<button class="btn btn-outline-success" type="submit">Search</button>
+										</form>
+									</div>
+								</nav>
+							</div>
+						</div>
+						<table class="table ">
+							<thead>
+								<tr>
+
+									<!-- <th scope="col">id</th> -->
+
+									<th scope="col">Tên xe</th>
+									<th scope="col">Hình ảnh</th>
+
+									<th scope="col">Biển số</th>
+									<th scope="col">Sức chứa</th>
+									<th>Chức năng</th>
+							</thead>
+							<tbody>
+								<c:forEach var="item" items="${busList}">
+									<%-- <form action="product/edit/${item.id}" method="post"> --%>
+										<tr>
+											<td>${item.name}</td>
+											<td> <img alt="" style="width: 100px" src="/img/${item.avatar}"> </td>
+
+											<td>${item.licensePlate}</td>
+											<td>${item.capacity}</td>
+											<td><a class="btn btn-primary" href="/admin/bus/edit/${item.id}">
+													edit </a></td>
+										</tr>
+										<%-- </form> --%>
+								</c:forEach>
+
+						</table>
+						</div>
+					</main>
+
+				</body>
+
+				</html>

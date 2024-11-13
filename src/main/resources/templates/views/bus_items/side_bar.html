@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+
+<head>
+<meta charset="UTF-8">
+</head>
+
+<body>
+	<aside class="app-sidebar" th:fragment="side_bar">
+		<div class="app-sidebar__user">
+			<div>
+				<p class="app-sidebar__user-name">
+					<b>[[${#authentication.name}]]</b>
+				</p>
+				<p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+			</div>
+		</div>
+		<hr>
+		<ul class="app-menu">
+			<li><a class="app-menu__item " href="/admin"><i
+					class='app-menu__icon bx bx-tachometer'></i><span
+					class="app-menu__label ">Bảng điều khiển</span></a></li>
+			<li><a class="app-menu__item active" href="/admin/bus"><i
+					class='app-menu__icon bx bx-id-card'></i> <span
+					class="app-menu__label ">Quản lý nhà xe</span></a></li>
+			<li><a class="app-menu__item" href="/admin/route"><i
+					class='app-menu__icon bx bx-purchase-tag-alt'></i> <span
+					class="app-menu__label">Quản lý tuyến đường</span></a></li>
+			<li><a class="app-menu__item" href="/admin/ticket"><i
+					class='app-menu__icon bx bx-task'></i><span class="app-menu__label">Quản
+						lý đơn Vé</span></a></li>
+			<li><a class="app-menu__item" href="/admin/report"><i
+					class='app-menu__icon bx bx-pie-chart-alt-2'></i><span
+					class="app-menu__label">Báo cáo doanh thu</span></a></li>
+		</ul>
+	</aside>
+</body>
+
+</html>

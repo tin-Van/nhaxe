@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+<meta charset="UTF-8">
+</head>
+
+<body th:fragment="table">
+	<div class="tile mb-5 mt-5">
+		<h3 class="tile-title">Chi tiết vé</h3>
+		<!-- <input type="text" id="myInput" onkeyup="myFunction()"
+			placeholder="Nhập mã sản phẩm hoặc tên sản phẩm để tìm kiếm..."> -->
+		<div class="">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th class="text-center">Tên nhà xe</th>
+						<th class="text-center">Tuyến</th>
+						<th class="text-center">Hình ảnh</th>
+						<th class="text-center">Số Ghế</th>
+						<th class="text-center">Giá bán</th>
+						<th class="text-center">Tổng tiền</th>
+						<th class="text-center">Thời gian xuất phát</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>[[${route.bus.name}]]</td>
+						<td>[[${route.name}]]</td>
+						<td><img alt="" style="width: 100px"
+							th:src="'/img/'+${route.bus.avatar}"></td>
+						<td>
+							<span th:each="seat, stat : ${selectedSeats}" > 
+								<span th:if="${seat != null and seat != ''}" th:text="${seat.seatNumber}">
+								</span>
+								<span th:if="${seat != null and seat != '' and !stat.last}">,</span>
+							</span>
+						</td>
+						<td id="price" >
+							[[${#numbers.formatDecimal(route.price, 0, 'COMMA',
+								0, 'POINT')}]] VND
+								
+						</td>
+						<td id="price" >
+							[[${#numbers.formatDecimal(route.price*count, 0, 'COMMA',
+								0, 'POINT')}]] VND
+								
+						</td>
+						<td>[[${route.time}]]</td>
+						
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="alert">
+
+			<i class="fas fa-exclamation-triangle"></i> Xem lại thông tin vé xe
+			của mình nhé
+		</div>
+	</div>
+</body>
+
+</html>

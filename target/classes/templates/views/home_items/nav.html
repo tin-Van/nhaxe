@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body th:fragment="nav">
+	<nav class="navbar navbar-expand-lg position-relative">
+			<div class="container-fluid p-4">
+				<a class="navbar-brand text-light ms-5 me-5" href="/home"><i class="fa-solid fa-stroopwafel"></i>  Booking
+					Store</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse me-auto mb-2 mb-lg-0" id="navbarSupportedContent">
+				</div>
+				<div class="dropdown">
+					<a class="me-5 pe-5 nav-link dropdown-toggle link-light" href="#" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<span sec:authorize="isAnonymous()">User</span>
+						<span sec:authorize="isAuthenticated()">[[${#authentication.name}]]</span>
+					</a>
+					<ul class="dropdown-menu w-50">
+						<li sec:authorize="isAnonymous()">
+							<a class="dropdown-item link-light" href="/req/login">Login</a>
+						</li>
+						<li sec:authorize="isAuthenticated()">
+							<a class="dropdown-item link-light" th:href="@{/req/logout}">Logout</a>
+						</li>
+						<li sec:authorize="isAuthenticated()">
+							<a class="dropdown-item link-light" th:href="@{/admin}">Manager</a>
+						</li>
+						<li sec:authorize="hasRole('admin')"><a
+							class="dropdown-item link-light" th:href="@{/admin}">ManagerUser</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<ul class="collapse navbar-collapse position-absolute top-50 start-50 translate-middle">
+				<li class="nav-item me-3 "><a class="nav-link text-light" href="#">Ưu
+						đãi nổi bật</a></li>
+				<li class="nav-item me-3 "><a class="nav-link text-light" href="#">Tin
+						Tức</a></li>
+				<li class="nav-item me-3 "><a class="nav-link text-light" href="#">Hỗ trợ
+					</a></li>
+			</ul>
+		</nav>
+</body>
+</html>

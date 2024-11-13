@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+
+<head>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<div th:fragment="order" class="card border-info" style="width: 80rem;height: 16rem">
+		<div class="mb-3">
+			<h5 class="form-label">Xe Khách</h5>
+		</div>
+		<form th:object="${order}" action="/order/list" method="post" class="p-2">
+		<div class="row">
+			<div class="col-md-6">
+				<input sec:authorize="isAuthenticated()" type="hidden" name="userID" th:value="${#authentication.name}">
+				<input class="form-control mb-3" list="datalistOptions" id="exampleDataList"
+				placeholder="Địa điểm khởi hành" th:field="*{departure_name}">
+			<p class="badge text-bg-danger" th:if="${#fields.hasErrors('departure_name')}"
+							th:errors="*{departure_name}" />
+			<datalist id="datalistOptions">
+				<option th:each="location : ${locations}"
+					 th:text="${location.name}">
+				</option>
+				
+			</datalist>
+			</div>
+			<div class="col-md-6">
+				<input class="form-control mb-3" list="datalistOptions" id="exampleDataList" placeholder="Địa điểm đến"
+				th:field="*{destination_name}">
+			<p class="badge text-bg-danger" th:if="${#fields.hasErrors('destination_name')}"
+							th:errors="*{destination_name}" />
+			<datalist id="datalistOptions">
+				<option th:each="location : ${locations}"
+				 th:text="${location.name}">
+				</option>
+				
+			</datalist>
+			</div>
+			<div class="col-md-6">
+				<input class="form-control mb-2" type="date" th:field="*{daycheck}">
+			<p class="badge text-bg-danger" th:if="${#fields.hasErrors('daycheck')}"
+							th:errors="*{daycheck}" />
+			</div>
+			<div class="col-md-6">
+				<button type="submit" class="btn btn-primary">Search</button>
+			</div>
+		</div>
+			<span th:if="${message}" th:text="${message}"></span>
+		</form>
+	</div>
+</body>
+
+</html>

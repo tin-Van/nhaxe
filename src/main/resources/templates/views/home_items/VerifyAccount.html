@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Account</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-6 text-center">
+                <h4 class="text-primary">Online Booking Mall</h4>
+                <h2>Đặt vé nhanh, dễ dàng</h2>
+            </div>
+            <div class="col-md-6 card p-3 shadow-lg" style="width: 21rem;">
+              <form action="/req/verify-account" method="post">
+    <input type="hidden" name="token" th:value="${token}" /> <!-- Thêm trường ẩn cho token -->
+    <div class="mb-3">
+        <label for="verificationCode">Mã xác nhận:</label>
+        <input type="text" id="verificationCode" name="verificationCode" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary d-grid gap-2 col-10 mx-auto">Xác Nhận Tài Khoản</button>
+</form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

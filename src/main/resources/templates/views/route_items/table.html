@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+<title>Table</title>
+</head>
+<body th:fragment="table">
+	<div class="card">
+		<div class="card-body">
+			<div class="row p-2">
+				<div class="col-auto me-auto">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card mb-2">
+								<div class="card-body">
+									<div class="col-sm-2">
+										<a class="btn btn-add btn-sm" href="/admin/route/edit"
+											title="Thêm"><i class="fas fa-plus"></i> Tạo mới tuyến
+											đường</a>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<table class="table table-hover table-bordered" id="sampleTable">
+				<thead>
+					<tr>
+						<!-- <th scope="col">id</th> -->
+						<th scope="col">Bus</th>
+						<th scope="col">Hình ảnh</th>
+						<th scope="col">Tên tuyến đường</th>
+						<th scope="col">Địa điểm khởi hành</th>
+						<th scope="col">Địa điểm đến</th>
+						<th scope="col">Ngày khởi hành</th>
+						<th scope="col">Thời gian khởi hành</th>
+						<th scope="col">Khoảng cách</th>
+						<th scope="col">Thời gian dự kiến</th>
+						<th scope="col">Giá Tiền</th>
+						<th>Chức năng</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr th:each="item:${routes}">
+						<td th:text="*{item.bus.name}"></td>
+						<td>
+							<img alt="" class="" style="width: 100px"
+							th:src="@{'/img/' + ${item.bus.avatar}}">
+						</td>
+						<td th:text="*{item.name}"></td>
+						<td th:text="*{item.departure.name}"></td>
+						<td th:text="*{item.destination.name}"></td>
+						<td th:text="*{item.departureDate}"></td>
+						<td th:text="*{item.time}"></td>
+						<td th:text="*{item.distance}">Km</td>
+						<td th:text="*{item.estimatedDuration}"></td>
+						<td th:text="*{item.price}">00đ</td>
+						<td><a class="btn btn-primary"
+							th:href="@{'/admin/route/edit/'+${item.id}}"
+						>edit </a></td>
+					</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

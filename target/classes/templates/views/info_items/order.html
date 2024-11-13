@@ -1,0 +1,43 @@
+
+	<!DOCTYPE html>	
+	<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+	<head>
+		<meta charset="UTF-8">
+	</head>
+
+	<body th:fragment="order">
+
+		<div class="card mb-5 mt-5">
+			<div class="card-title p-2 fw-bold">Gần Xong rồi ...</div>
+			<div class="card-body">
+				<form action="bookingconfirmation" method="post" class="container">
+					<input type="hidden" name="routeID" th:value="${route.id}">
+					<input type="hidden" name="userID" th:value="${#authentication.name}">
+					<input type="hidden" name="count" th:value="${count}">
+					<input type="hidden" name="seatID" th:value="${seats}">
+					<div class="mb-3">
+						<label for="name" class="form-label fw-bold">Thông tin liên hệ</label> 
+						<input type="text"
+							name="name" th:value="${account.fullname}" class="form-control" id="name" placeholder="Tên Người Đi">
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1">vn +84</span> <input type="text"
+							class="form-control" th:value="${account.phone}" name="phonenumber" placeholder="Số điện thoại">
+					</div>
+					<div class="mb-3">
+						<label for="email" class="form-label">Email</label> <input type="email" class="form-control"
+							name="email" th:value="${account.email}" id="email" placeholder="name@example.com">
+					</div>
+					<div class="mb-3">
+						<button type="submit" class="btn btn-primary">Đặt vé</button>
+						<button sec:authorize="hasAnyRole('admin','staff')" type="submit" formmethod="post" formaction="/order/cashpayment" class="btn btn-primary">Thanh toán tiền mặt</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</body>
+
+	</html>

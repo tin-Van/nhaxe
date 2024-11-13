@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+<title>PROFILE</title>
+<head>
+<title>Danh sách vé xe | Quản trị Admin</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Main CSS-->
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+<!-- or -->
+<link rel="stylesheet"
+	href="https://unpkg.com/boxicons@latests/css/boxicons.min.css">
+
+<!-- Font-icon css-->
+<link rel="stylesheet" type="text/css"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<!-- Thư viện xlsx -->
+</head>
+
+<body onload="time()" class="app sidebar-mini rtl">
+	<!-- Navbar-->
+	<div th:replace="~{/views/manager_items/header::header}"></div>
+
+	<!-- Sidebar menu-->
+	<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+	<aside class="app-sidebar">
+		<div class="app-sidebar__user">
+			<div>
+				<p class="app-sidebar__user-name">
+					<b>[[${#authentication.name}]]</b>
+				</p>
+				<p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+			</div>
+		</div>
+		<hr>
+
+		<ul class="app-menu">
+
+			<li><a class="app-menu__item active "
+				th:href="@{'/profile?username='+${#authentication.name}}"><i
+					class='app-menu__icon bx bx-id-card'></i> <span
+					class="app-menu__label">PROFILE</span></a></li>
+			<li><a class="app-menu__item"
+				th:href="@{'/profile/history?username='+${#authentication.name}}">
+					<i class='app-menu__icon bx bx-id-card'></i> <span
+					class="app-menu__label">Lịch sử mua vé</span>
+			</a></li>
+
+		</ul>
+	</aside>
+	<main class="app-content">
+		<div class="app-title">
+			<ul class="app-breadcrumb breadcrumb side">
+				<li class="breadcrumb-item active"><a href="#"><b>PROFILE</b></a></li>
+			</ul>
+
+			<div id="clock"></div>
+		</div>
+		<div class="row">
+			<div class="container form-container">
+				<h2 class="text-center mb-4">Hồ Sơ Của Tôi</h2>
+				<h3 class="text-center mb-4">Quản lý thông tin hồ sơ tài khoản
+					mật khẩu</h3>
+				<hr>
+				<form th:object="${accounts}" action="/profile" method="post">
+					<div class="form-row">
+						<!-- Left Column -->
+						<input type="hidden" th:field="*{id}" /> <input type="hidden"
+							th:field="*{role}" /> <input type="hidden" th:field="*{avatar}" />
+						<input type="hidden" th:field="*{password}" /> <input
+							type="hidden" th:field="*{username}" />
+						<div class="col-md-8">
+							<div class="form-group">
+								<label for="name" class="form-label">Họ và Tên</label> <input
+									th:field="*{fullname}" type="text" class="form-control">
+							</div>
+
+							<div class="form-group">
+								<label for="email" class="form-label">Email</label>
+								<div class="d-flex align-items-center">
+									<input th:field="*{email}" th:errorClass="is-invalid"
+										type="email" class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="phone" class="form-label">Số điện thoại</label>
+								<div class="d-flex align-items-center">
+									<input th:field="*{phone}" th:errorClass="is-invalid"
+										type="text" class="form-control">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="form-label">Giới tính</label>
+								<div class="d-flex">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" th:field="*{gender}"
+											type="radio" name="flexRadioDefault" value="true" checked>
+										<label class="form-check-label"> Male </label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" th:field="*{gender}"
+											type="radio" name="flexRadioDefault" value="false"> <label
+											class="form-check-label"> Female </label>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<hr>
+						<!-- Right Column (Profile Image) -->
+						<div class="col-md-4 text-center">
+							<img src="profile-placeholder.png" alt="Profile Image"
+								class="profile-image mb-3"> <input type="file"
+								class="form-control-file" id="profile-image">
+							<p class="file-instructions mt-2">Dụng lượng file tối đa 1
+								MB. Định dạng: JPEG, PNG</p>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">Lưu</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</main>
+
+	<!-- Essential javascripts for application to work-->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/src/jquery.table2excel.js"></script>
+	<script src="/js/main.js"></script>
+	<!-- The javascript plugin to display page loading on top-->
+	<script src="/js/plugins/pace.min.js"></script>
+	<!-- Page specific javascripts-->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<!-- Data table plugin-->
+	<script type="text/javascript"
+		src="/js/plugins/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="/js/plugins/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript">$('#sampleTable').DataTable();</script>
+	<script>
+						function deleteRow(r) {
+							var i = r.parentNode.parentNode.rowIndex;
+							document.getElementById("myTable").deleteRow(i);
+						}
+						oTable = $('#sampleTable').dataTable();
+						$('#all').click(function (e) {
+							$('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
+							e.stopImmediatePropagation();
+						});
+
+						// Thời Gian
+						function time() {
+							var today = new Date();
+							var weekday = new Array(7);
+							weekday[0] = "Chủ Nhật";
+							weekday[1] = "Thứ Hai";
+							weekday[2] = "Thứ Ba";
+							weekday[3] = "Thứ Tư";
+							weekday[4] = "Thứ Năm";
+							weekday[5] = "Thứ Sáu";
+							weekday[6] = "Thứ Bảy";
+							var day = weekday[today.getDay()];
+							var dd = today.getDate();
+							var mm = today.getMonth() + 1;
+							var yyyy = today.getFullYear();
+							var h = today.getHours();
+							var m = today.getMinutes();
+							var s = today.getSeconds();
+							m = checkTime(m);
+							s = checkTime(s);
+							nowTime = h + " giờ " + m + " phút " + s + " giây";
+							if (dd < 10) {
+								dd = '0' + dd
+							}
+							if (mm < 10) {
+								mm = '0' + mm
+							}
+							today = day + ', ' + dd + '/' + mm + '/' + yyyy;
+							tmp = '<span class="date"> ' + today + ' - ' + nowTime + '</span>';
+							document.getElementById("clock").innerHTML = tmp;
+							clocktime = setTimeout("time()", "1000", "Javascript");
+
+							function checkTime(i) {
+								if (i < 10) {
+									i = "0" + i;
+								}
+								return i;
+							}
+						}
+
+
+
+
+						// Tìm kiếm theo tên khách hàng
+						document.getElementById('searchInput').addEventListener('keyup', function () {
+							var input = document.getElementById('searchInput');
+							var filter = input.value.toLowerCase();
+							var table = document.getElementById('sampleTable');
+							var trs = table.getElementsByTagName('tr');
+
+							for (var i = 1; i < trs.length; i++) {
+								var td = trs[i].getElementsByTagName('td')[0]; // Cột đầu tiên là 'Tên khách hàng'
+								if (td) {
+									var txtValue = td.textContent || td.innerText;
+									if (txtValue.toLowerCase().indexOf(filter) > -1) {
+										trs[i].style.display = '';
+									} else {
+										trs[i].style.display = 'none';
+									}
+								}
+							}
+						});
+
+					</script>
+</body>
+
+</html>

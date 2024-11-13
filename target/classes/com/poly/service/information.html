@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Của Tôi</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .profile-image {
+            max-width: 150px;
+            border-radius: 50%;
+        }
+        .file-instructions {
+            font-size: 12px;
+            text-align: center;
+        }
+        .btn-custom {
+            background-color: #ff4500;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #ff5722;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .text-muted a {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container form-container">
+    <h2 class="text-center mb-4">Hồ Sơ Của Tôi</h2>
+    <h3 class="text-center mb-4">Quản lý thông tin hồ sơ tài khoản mật khẩu</h3>
+    <hr>
+    <form th:object="${accounts}" action="/profile" method="post">
+        <div class="form-row">
+       		<input type="hidden" th:field="*{id}" />
+			<input type="hidden" th:field="*{role}" />
+			<input type="hidden" th:field="*{avatar}" />
+			<input type="hidden" th:field="*{password}" /> 
+			<input type="hidden" th:field="*{username}" /> 
+            <!-- Left Column -->
+            <div class="col-md-8">
+
+					<div class="form-group">
+						<label for="name" class="form-label">Tên</label> <input
+							th:field="*{fullname}" type="text" class="form-control">
+					</div>
+
+					<div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="d-flex align-items-center">
+                       <input th:field="*{email}" th:errorClass="is-invalid" type="email"
+					class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="form-label">Số điện thoại</label>
+						<div class="d-flex align-items-center">
+							<input th:field="*{phone}" th:errorClass="is-invalid" type="text"
+								class="form-control">
+							<button class="btn btn-primary" type="submit">Button</button>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">Giới tính</label>
+						<div class="d-flex">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" th:field="*{gender}"
+									type="radio" name="flexRadioDefault" value="true" checked>
+								<label class="form-check-label"> Male </label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" th:field="*{gender}"
+									type="radio" name="flexRadioDefault" value="false"> <label
+									class="form-check-label"> Female </label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+                    <label for="dob" class="form-label">Ngày sinh</label>
+                    <div class="form-row">
+                        <div class="col">
+                            <select class="form-control" id="dob-day">
+                                <option>2</option>
+                                <!-- Add more days -->
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-control" id="dob-month">
+                                <option>Tháng 10</option>
+                                <!-- Add more months -->
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-control" id="dob-year">
+                                <option>2024</option>
+                                <!-- Add more years -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <!-- Right Column (Profile Image) -->
+            <div class="col-md-4 text-center">
+                <img src="profile-placeholder.png" alt="Profile Image" class="profile-image mb-3">
+                <input type="file" class="form-control-file" id="profile-image">
+                <p class="file-instructions mt-2">Dụng lượng file tối đa 1 MB. Định dạng: JPEG, PNG</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Lưu</button>
+        </div>
+    </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
